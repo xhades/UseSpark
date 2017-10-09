@@ -223,3 +223,56 @@ scala中没有提供类似于java的break语句
 case
 ## 8 Array
 在scala中， Array代表长度不可变的数组，此外由于scala与java都是运行在jvm中，双方可以互相调用，因此scala数组的底层实际上是java数组
+## 9 ArryBuffer
+在scala中 如果需要类似于Java中的ArrayList这种长度可变的集合类，则使用ArryBuffer
+    ```shell
+    scala> import scala.collection.mutable.ArrayBuffer
+    import scala.collection.mutable.ArrayBuffer
+
+    scala> val b = ArrayBuffer[Int]()
+    b: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer()
+    //使用 += 可以添加一个元素， 或者多个元素
+    //spark源码中大量使用了这种操作
+    scala> b += 1
+    res24: b.type = ArrayBuffer(1)
+
+    scala> b
+    res25: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(1)
+    // 使用 ++= 可以添加其他集合中的所有元素
+    scala> b ++= Array(5,6,7)
+    res28: b.type = ArrayBuffer(1, 2, 5, 6, 7)
+
+    scala> b
+    res29: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(1, 2, 5, 6, 7)
+
+    scala> val barray = b.toArray
+    barray: Array[Int] = Array(1, 2, 5, 6, 7)
+
+    scala> barray
+    res32: Array[Int] = Array(1, 2, 5, 6, 7)
+    ```
+## 10 使用yield和函数式编程转换数组
+//对Array进行转换，获取的还是Array
+    ```shell
+    scala> val a = Array(1,2,3,4,5)
+    a: Array[Int] = Array(1, 2, 3, 4, 5)
+
+    scala> val a2 = for(ele <- a) yield ele*ele
+    a2: Array[Int] = Array(1, 4, 9, 16, 25)
+    ```
+//对ArrayBuffer进行转换，获取的还是ArrayBuffer
+    ```shell
+    scala> val b = ArrayBuffer[Int]()
+    b: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer()
+
+    scala> b += (1,2,3,4,5)
+    res33: b.type = ArrayBuffer(1, 2, 3, 4, 5)
+
+    scala> val b2 = for(ele <- b) yield ele*ele
+    b2: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(1, 4, 9, 16, 25)
+    ```
+// 结合if守卫，仅转换需要的元素
+    ```shell
+    scala> val a3 = for(ele <- a if ele % 2 == 0) yield ele*ele
+    a3: Array[Int] = Array(4, 16)
+    ```
