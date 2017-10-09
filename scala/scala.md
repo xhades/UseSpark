@@ -8,7 +8,7 @@
     Welcome to Scala 2.12.1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_121).
     Type in expressions for evaluation. Or try :help.
 scala>
-```
+```    
 - Java和Scala可以无缝互操作，Scala可以任意调用Java的代码
 
 ## 1 声明变量
@@ -275,4 +275,117 @@ case
     ```shell
     scala> val a3 = for(ele <- a if ele % 2 == 0) yield ele*ele
     a3: Array[Int] = Array(4, 16)
+    ```
+    
+# Day04
+## 1 创建Map
+- 创建一个不可变的Map
+    ```scala
+    scala> val ages = Map("leo" -> 30, "Jack" -> 20)
+    ages: scala.collection.immutable.Map[String,Int] = Map(leo -> 30, Jack -> 20)
+    ```
+- 创建一个可变的Map
+    ```scala
+    scala> val mutable_ages = scala.collection.mutable.Map("leo" -> 20, "jack" -> 10)
+    mutable_ages: scala.collection.mutable.Map[String,Int] = Map(jack -> 10, leo -> 20)
+    
+    scala> mutable_ages("leo") = 40
+    
+    scala> mutable_ages
+    res1: scala.collection.mutable.Map[String,Int] = Map(jack -> 10, leo -> 40)
+    ```
+- 访问Map的元素
+    - 括号`()`取,不存在key则会报错
+    - `contains`函数判断是否存在 !冗余
+    - `getOrElse`
+        ```scala
+        scala> val leoAge = ages.getOrElse("leo", 0)
+        leoAge: Int = 30
+        ```
+- 修改Map的元素
+    - 更新元素
+    - 增加多个元素
+        ```scala
+        scala> mutable_ages += ("Mike" -> 36)
+        res3: mutable_ages.type = Map(jack -> 10, Mike -> 36, leo -> 40)
+        ```
+    - 移除元素  
+    `-=`
+    - 更新不可变的Map
+        ```scala
+        scala> val ages = Map("leo" -> 30, "Jack" -> 20)
+        ages: scala.collection.immutable.Map[String,Int] = Map(leo -> 30, Jack -> 20)
+        
+        scala> val ages2 = ages + ("leo" -> 31)
+        ages2: scala.collection.immutable.Map[String,Int] = Map(leo -> 31, Jack -> 20)
+        ```
+    - 移除不可变Map的元素  
+     `-`  
+     
+## 2 遍历Map
+
+```scala
+scala> //遍历map的entrySet
+scala> for((key, value) <- ages) println(key + ":" + value)
+leo:30
+Jack:20
+
+scala> //遍历map的key
+scala> for(key <- ages.keySet) println(key)
+leo
+Jack
+
+scala> //遍历map的value
+scala> for(value <- ages.values) println(value)
+30
+20
+
+scala> //生成新map, 反转key value
+scala> for((key, value) <- ages) yield(value, key)
+res4: scala.collection.immutable.Map[Int,String] = Map(30 -> leo, 20 -> Jack)
+```
+
+## 3 Map排序
+- SortedMap可以自动对Map的Key排序
+- LinkedHashMap可以记住插入entry的顺序
+
+## 4 Map的元素类型Tuple
+- 简单Tuple
+    ```scala
+    scala> val t = ("a", 1)
+    t: (String, Int) = (a,1)
+    ```
+- 访问Tuple
+    ```scala
+    scala> t._1
+    res5: String = a
+    ```
+- zip操作
+    ```scala
+    scala> val names = Array("leo", "jack" )
+    names: Array[String] = Array(leo, jack)
+    
+    scala> val ages = Array(30, 20)
+    ages: Array[Int] = Array(30, 20)
+    
+    scala> val nAges = names.zip(ages)
+    nAges: Array[(String, Int)] = Array((leo,30), (jack,20))
+    ```
+
+## 5 面向对象之类
+- 定义一个简单类
+    ```scala
+    scala> class HelloWorld{
+         | private var name = "leo"
+         | def sayHello(){print("Hello," + name)}
+         | def getName = name
+         | }
+    defined class HelloWorld
+    ```
+- 创建类的对象并调用其方法
+    ```scala
+    scala> val helloWorld = new HelloWorld
+    helloWorld: HelloWorld = HelloWorld@331da721
+    scala> helloWorld.sayHello()
+    Hello,leo
     ```
