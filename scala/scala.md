@@ -389,3 +389,40 @@ res4: scala.collection.immutable.Map[Int,String] = Map(30 -> leo, 20 -> Jack)
     scala> helloWorld.sayHello()
     Hello,leo
     ```
+- getter和setter方法
+    - 定义不带private的var field，此时scala生成的面向JVM的类时，会定义为private的name字段，并提供public的getter和setter方法
+    - 如果使用private修饰field，则生成的getter和setter也是private
+    - 如果定义val field 则只会生成getter方法
+    - 如果不希望生成setter和getter方法，则将field生命为private[this]
+
+- 自定义getter和setter
+
+- 仅暴露field的getter方法
+
+- private[this]的使用
+    - 如果将field使用private来修饰，那么代表这个field是类私有的，在类的方法中， 可以直接访问类的其他对象的private field
+    - 这种情况下，如果  不希望field被其他对象访问到，那么可以使用private[this]，意味着只有本对象可以访问
+
+## 6 辅助constructor
+ - 可以在类中创建任意数量的辅助构造函数，必须要从辅助构造函数内部调用主构造函数。`this`关键字用于从其他构造函数调用构造函数。
+ 当调用其他构造函数时，要将其放在构造函数中的第一行。
+```scala
+scala> class Student{
+     | private var name = ""
+     | private var age = 0
+     | def this(name: String){
+     | this()
+     | this.name = name
+     | }
+     | def this(name:String, age:Int){
+     | this(name)
+     | this.age = age
+     | }
+     | }
+defined class Student
+```
+
+## 7 主constructor
+
+
+## 8 内部类
