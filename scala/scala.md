@@ -403,7 +403,7 @@ res4: scala.collection.immutable.Map[Int,String] = Map(30 -> leo, 20 -> Jack)
     - 如果将field使用private来修饰，那么代表这个field是类私有的，在类的方法中， 可以直接访问类的其他对象的private field
     - 这种情况下，如果  不希望field被其他对象访问到，那么可以使用private[this]，意味着只有本对象可以访问
 
-## 6 辅助constructor
+- 辅助constructor
  - 可以在类中创建任意数量的辅助构造函数，必须要从辅助构造函数内部调用主构造函数。`this`关键字用于从其他构造函数调用构造函数。
  当调用其他构造函数时，要将其放在构造函数中的第一行。
 ```scala
@@ -422,7 +422,30 @@ scala> class Student{
 defined class Student
 ```
 
-## 7 主constructor
+- 主constructor
 
 
-## 8 内部类
+- 内部类
+
+
+## 6 面向对象编程之对象
+- object
+    - object，相当于class的单个实例，通常在里面放一些静态的field或者method
+    - 第一次调用object的方法时，就会执行object的constructor，也就是object内部不在method中的方法；但是object不能定义接受参数的constructor
+    - object的constructor只会在第一次被调用时执行一次，以后再次调用就不会再次执行constructor
+    - object通常用于作为单例模式的实现，或者放class的静态成员，比如工具方法
+        ```scala
+        scala> object Person{
+        | private var eyeNum = 2
+        | println("this Person object")
+        | def getEyeNum = eyeNum
+        | }
+        defined object Person
+
+        scala> Person.getEyeNum
+        this Person object
+        res0: Int = 2
+
+        scala> Person.getEyeNum
+        res1: Int = 2
+        ```
