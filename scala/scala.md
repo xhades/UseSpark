@@ -449,3 +449,65 @@ defined class Student
         scala> Person.getEyeNum
         res1: Int = 2
         ```
+- 伴生对象
+    - 如果有一个class，还有一个与class同名的object，那么称这个object是class的伴生对象，class是object的伴生类
+    - 伴生对象和伴生类必须存放在一个`.scala`文件中
+    - 伴生类和伴生对象最大的特点是，可以互相访问`private field`
+        ```scala
+        scala> :paste
+        // Entering paste mode (ctrl-D to finish)
+        
+        class Person(val name: String, age: Int){
+            def sayHello = println("Hi, " + name + ", I guess you are " + age +
+                "years old " + "and usually you must have " + Person.eyeNum + " eyes!")}
+        
+        object Person{
+            private val eyeNum =2
+            def getEyeNum = eyeNum
+        }
+        
+        // Exiting paste mode, now interpreting.
+        
+        defined class Person
+        defined object Person
+        
+        scala> val p = new Person("leo", 30)
+        p: Person = Person@60a7e509
+        
+        scala> p.sayHello
+        Hi, leo, I guess you are 30 years old! and usually you must have 2 eyes!
+        ```
+
+- 让object继承抽象类
+
+- apply方法
+```scala
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+class Person(val name: String)
+object Person{
+    def apply(name: String) = new Person(name)
+}
+
+// Exiting paste mode, now interpreting.
+
+defined class Person
+defined object Person
+
+scala> val p = Person("leo")
+p: Person = Person@6e49b011
+```
+
+- main方法  
+在scala中如果要运行一个应用程序，那么必须要有一个main方法，作为入口
+    - scala中的`main`方法定义为`def main(args: Array[String])`,而且必须在object中
+        ```scala
+      1   object HelloWorld{                                                          
+      1     def main(args: Array[String]){                                          
+      2         println("Hello World")                                              
+      3         }                                                                   
+      4     }                                                                                 
+        ```
+    - 除了自己实现main方法外，还可以继承`App Trait`，然后将需要在main方法中运行的代码，直接作为object的constructor代码，而且用args可以接受
+    传入的参数
