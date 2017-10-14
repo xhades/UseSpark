@@ -511,3 +511,92 @@ p: Person = Person@6e49b011
         ```
     - 除了自己实现main方法外，还可以继承`App Trait`，然后将需要在main方法中运行的代码，直接作为object的constructor代码，而且用args可以接受
     传入的参数
+
+# Day05
+## 面向对象编程之继承
+- extends
+    - scala中，让子类继承父类，与`java`一样，也是使用`extends`关键字
+    - 继承就代表子类可以继承父类的`field`和`method`;然后子类可以在自己内部放入父类所没有，子类特有的`field`和method；使用继承可以有效复用代码
+    - 子类可以覆盖父类的`field`和`method`；但如果父累用`final`修饰，`field`和`method`用`final`修饰，则该类是无法被继承的，`field`和`method`是无法被覆盖的
+        ```scala
+        scala> :paste
+        // Entering paste mode (ctrl-D to finish)
+
+        class Person{
+            private var name = "leo"
+            def getName = name
+        }
+
+        class Student extends Person{
+            private var score = "A"
+            def getScore = score
+        }
+
+        // Exiting paste mode, now interpreting.
+
+        defined class Person
+        defined class Student
+
+        scala> val s = new Student
+        s: Student = Student@1fdca564
+
+        scala> s.name
+        <console>:13: error: value name is not a member of Student
+            s.name
+                ^
+
+        scala> s.getName
+        res1: String = leo
+
+        scala>//再看另一种情况，父类不用private访问修饰符
+
+        scala> :paste
+        // Entering paste mode (ctrl-D to finish)
+
+        class Person{
+            val name = "leo"
+        }
+
+        class Student extends Person
+
+        // Exiting paste mode, now interpreting.
+
+        defined class Person
+        defined class Student
+
+        scala> val s = new Student
+        s: Student = Student@4d1ff6b1
+
+        scala> s.name
+        res2: String = leo
+        ```
+    
+- override和super
+    - scala中，如果子类要覆盖一个父类中的非抽象方法，则必须使用override关键字
+    - override关键字可以帮助我们尽早发现代码理的错误，比如： override修饰的父类方法的方法名我们拼写错了；比如要覆盖的父类方法的参数写错了
+    - 此外，在子类覆盖父类方法之后，如果在子类中就是要调用父类的被覆盖的方法，就可以使用`super`关键字，显式指定要调用父类的方法
+        ```scala
+        scala> :paste
+        // Entering paste mode (ctrl-D to finish)
+
+        class Person{
+            private var name = "leo"
+            def getName = name
+        }
+
+        class Student extends Person{
+            private var score = "A"
+            def getScore = score
+            override def getName = "Hi, I'm " + super.getName
+        }
+
+        // Exiting paste mode, now interpreting.
+
+        defined class Person
+        defined class Student
+
+        scala> val s = new Student
+        s: Student = Student@f5cf29b
+        scala> s.getName
+        res3: String = Hi, I'm leo
+        ```
