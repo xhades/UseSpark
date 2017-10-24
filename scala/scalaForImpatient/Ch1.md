@@ -3,7 +3,7 @@
     scala> val greeting: String = "hello"
     greeting: String = hello
     ```
-- scala常用数据类型：七种数值类型：`Byte`、`Char`、`Short`、`Int`、`Long`、`Float`和`Double`以及一个`Boolean`类型。这些类型都是类。Scala并不可以区分基本类型和引用类型，可以对数字执行方法
+- scala常用数据类型：七种数值类型：`Byte`、`Char`、`Short`、`Int`、`Long`、`Float`和`Double`以及一个`Boolean`类型。这些类型都是类。Scala并不可以区分基本类型和引用类型，可以对数字执行方法
     ```scala
     scala> 1.to(10)
     res2: scala.collection.immutable.Range.Inclusive = Range 1 to 10
